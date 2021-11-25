@@ -64,9 +64,6 @@ class ScaffoldWidget extends StatelessWidget {
         centerTitle: true,
         title: const Text('Plugin example app',),
       ),
-      body: Center(
-        child: Text('Running on: $_platformVersion\n'),
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           Navigator.push(context, MaterialPageRoute(builder: (context)=> const MapsScreen()),);
