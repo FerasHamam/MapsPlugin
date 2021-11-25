@@ -39,13 +39,14 @@ class ScaffoldWidget extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Plugin example app',),
+        backgroundColor: Colors.black
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           Navigator.push(context, MaterialPageRoute(builder: (context)=> MapsPlugin()),);
       },
-      backgroundColor: Colors.pink,
-      child: const Icon(Icons.navigation_rounded,color: Colors.black,),),
+      backgroundColor: Colors.black,
+      child: const Icon(Icons.navigation_rounded,color: Colors.white,),),
     );
   }
 }
