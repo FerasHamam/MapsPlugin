@@ -4,6 +4,9 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:maps_plugin/maps_plugin.dart';
 
+//screens
+import 'Screens/map_screen.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -24,23 +27,15 @@ class _MyAppState extends State<MyApp> {
     initPlatformState();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
     try {
       platformVersion =
           await MapsPlugin.platformVersion ?? 'Unknown platform version';
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
-
     setState(() {
       _platformVersion = platformVersion;
     });
@@ -49,14 +44,35 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
-        ),
+      home: ScaffoldWidget(platformVersion: _platformVersion),
+    );
+  }
+}
+
+class ScaffoldWidget extends StatelessWidget {
+  const ScaffoldWidget({
+    Key? key,
+    required String platformVersion,
+  }) : _platformVersion = platformVersion, super(key: key);
+
+  final String _platformVersion;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('Plugin example app',),
       ),
+      body: Center(
+        child: Text('Running on: $_platformVersion\n'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> const MapsScreen()),);
+      },
+      backgroundColor: Colors.pink,
+      child: const Icon(Icons.navigation_rounded,color: Colors.black,),),
     );
   }
 }
