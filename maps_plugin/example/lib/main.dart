@@ -43,7 +43,7 @@ class ScaffoldWidget extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> MapsPlugin()),);
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> const MapsPlugin()),);
       },
       backgroundColor: Colors.black,
       child: const Icon(Icons.navigation_rounded,color: Colors.white,),),

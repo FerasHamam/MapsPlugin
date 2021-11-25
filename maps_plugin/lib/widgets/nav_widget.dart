@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 //widgets
 import 'buttons/arrow_back_button.dart';
 import 'buttons/navigate_button.dart';
+//BloC
+import '../bloc/locationbloc.dart';
 class NavWidget extends StatelessWidget {
+  final LocationBloc locationBloc;
   const NavWidget({
     Key? key,
+    required this.locationBloc
   }) : super(key: key);
 
   @override
@@ -17,9 +21,9 @@ class NavWidget extends StatelessWidget {
       color: Colors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: const [
-          ArrowBackButton(),
-          NavigateButton(),
+        children: [
+          const ArrowBackButton(),
+          NavigateButton(locationBloc: locationBloc,),
         ],
       ),
     );
