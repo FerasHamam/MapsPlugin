@@ -21,6 +21,7 @@ class MapsPlugin extends StatefulWidget{
 
 class _MapsPluginState extends State<MapsPlugin> {
   final LocationBloc _locationBloc = LocationBloc();
+  late GoogleMapController _controller; 
   @override
   void dispose() {
     _locationBloc.dispose();
@@ -40,9 +41,12 @@ class _MapsPluginState extends State<MapsPlugin> {
                 builder:(context,snapShot){
                   if(snapShot.connectionState != ConnectionState.waiting){
                     _addPolyline(snapShot.data!); 
-                    if(snapShot.data!.latitude > 90 || snapShot.data!.longitude > 90)
+                    if(snapShot.data!.latitude > 90 || snapShot.data!.longitude > 90 || snapShot.data!.latitude < -90 ||snapShot.data!.longitude < -90 )
                     {
                       MapsPlugin.polylines.clear();
+                    }
+                    else{
+                      _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: snapShot.data!,zoom: 15)));
                     }
                   }
                   return GoogleMap(
@@ -52,6 +56,9 @@ class _MapsPluginState extends State<MapsPlugin> {
                     polygons: MapsPlugin.polygons,
                     myLocationEnabled:  true,
                     polylines: MapsPlugin.polylines,
+                    onMapCreated: (GoogleMapController controller){
+                      _controller = controller;
+                    },
                     );
                 }
               ),
