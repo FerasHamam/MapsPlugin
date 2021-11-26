@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 //widgets
 import 'buttons/arrow_back_button.dart';
-import 'buttons/navigate_button.dart';
+import 'buttons/navigate_exit_buttons.dart';
 //BloC
 import '../bloc/locationbloc.dart';
+
+//this is the nav bar in the bottom of the screen
 class NavWidget extends StatelessWidget {
-  final LocationBloc locationBloc;
+  final LocationBloc locationBloc;//location BloC from maps_plugin.dart
   const NavWidget({
     Key? key,
     required this.locationBloc
@@ -23,7 +25,7 @@ class NavWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const ArrowBackButton(),
-          NavigateButton(locationBloc: locationBloc,),
+          NavigateButtons(locationBloc: locationBloc,),//passing locationBloC to let the buttons control this widget!
         ],
       ),
     );

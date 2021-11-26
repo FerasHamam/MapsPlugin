@@ -1,4 +1,4 @@
 enum buttonEvent{
-  pressed,
+  navigate,
   exit
 }

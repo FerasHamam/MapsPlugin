@@ -20,7 +20,7 @@ class LocationBloc{
 
   LocationBloc(){
     eventStream.listen((event) async{ 
-      if(event == buttonEvent.pressed){
+      if(event == buttonEvent.navigate){
         Position _currentLocationPos = await GeolocatorPlatform.instance.getCurrentPosition();
         _currentLocation = LatLng(_currentLocationPos.latitude, _currentLocationPos.longitude);
         locationSink.add(_currentLocation);

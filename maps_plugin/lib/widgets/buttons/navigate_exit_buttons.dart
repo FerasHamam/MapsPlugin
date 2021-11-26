@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 //BloC
 import 'package:maps_plugin/bloc/locationbloc.dart';
 import 'package:maps_plugin/bloc/statebloc.dart';
-class NavigateButton extends StatelessWidget {
-  final LocationBloc locationBloc;
-  const NavigateButton({
+class NavigateButtons extends StatelessWidget {
+  final LocationBloc locationBloc;//location BloC from maps_plugin.dart
+  const NavigateButtons({
     Key? key,
     required  this.locationBloc,
   }) : super(key: key);
@@ -13,12 +13,12 @@ class NavigateButton extends StatelessWidget {
     return Row(
       children: [
         SharedButton(text: 'Exit',event: buttonEvent.exit,locationBloc: locationBloc,),
-        SharedButton(text: 'Navigate',event: buttonEvent.pressed,locationBloc: locationBloc,),
+        SharedButton(text: 'Navigate',event: buttonEvent.navigate,locationBloc: locationBloc,),
       ],
     );
   }
 }
-
+//button for navigate and exit that calls stream depending on the buttonEvent=> navigate or exit
 class SharedButton extends StatelessWidget {
   final buttonEvent event;
   final String text;
@@ -29,8 +29,6 @@ class SharedButton extends StatelessWidget {
     required this.locationBloc,
     required this.text
   }) : super(key: key);
-
-
   @override
   Widget build(BuildContext context) {
     return Padding(

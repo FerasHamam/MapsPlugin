@@ -4,21 +4,20 @@ import 'package:flutter/material.dart';
 import 'bloc/locationbloc.dart';
 //location and map
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import 'package:geolocator/geolocator.dart';
 //constants
 import 'constants.dart';
 //widgets
 import './widgets/nav_widget.dart';
+//functions
+import './functions.dart';
 
 class MapsPlugin extends StatefulWidget{
   const MapsPlugin({Key? key}):super(key:key);
   static Set<Polygon> polygons = HashSet<Polygon>(); //creating set of polygons to pass it to GoogleMap Function!
   static Set<Polyline> polylines = HashSet<Polyline>();//creating set of polylines to pass it to GoogleMap Function!
-  // static late Position currentPosition;
   @override
   State<MapsPlugin> createState() => _MapsPluginState();
 }
-
 class _MapsPluginState extends State<MapsPlugin> {
   final LocationBloc _locationBloc = LocationBloc();
   late GoogleMapController _controller; 
@@ -29,23 +28,25 @@ class _MapsPluginState extends State<MapsPlugin> {
   }
   @override
   Widget build(BuildContext context) {
-    _addPolygon();
+    addPolygon();//function from functions.dart file
     return 
        Scaffold(
         body: 
             Stack(
               alignment: Alignment.bottomCenter,
-              children:[ StreamBuilder<LatLng>(
-                stream: _locationBloc.locationStream,
-                initialData: const LatLng(0,0),
+              children:[ 
+                StreamBuilder<LatLng>(//first child of the stack
+                stream: _locationBloc.locationStream,//stream to detect the pressed buttons on the nav bar
+                initialData: latlanPoints[0],//any dummy point to start with
                 builder:(context,snapShot){
-                  if(snapShot.connectionState != ConnectionState.waiting){
-                    _addPolyline(snapShot.data!); 
+                  if(snapShot.connectionState == ConnectionState.active){//won't enter first time because connection state will be waiting
                     if(snapShot.data!.latitude > 90 || snapShot.data!.longitude > 90 || snapShot.data!.latitude < -90 ||snapShot.data!.longitude < -90 )
                     {
                       MapsPlugin.polylines.clear();
+                      _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: latlanPoints[0],zoom: 15)));
                     }
                     else{
+                      addPolyline(snapShot.data!);//function from functions.dart file
                       _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: snapShot.data!,zoom: 15)));
                     }
                   }
@@ -62,33 +63,11 @@ class _MapsPluginState extends State<MapsPlugin> {
                     );
                 }
               ),
-              NavWidget(
-                locationBloc: _locationBloc,
+              NavWidget(//second child of the stack
+                locationBloc: _locationBloc,//passing locationBloC to let the buttons control this widget!
               ),
               ]
             ),
     );
   }
-}
-
-void _addPolygon(){  //creates polygon of the lat and lang points from the latlanPoints variable
-    MapsPlugin.polygons.add(
-      Polygon(
-        polygonId: const PolygonId("polygon 1"),
-        points: latlanPoints,
-        strokeColor: Colors.pink,
-        strokeWidth: 2,
-        fillColor: Colors.pink.withOpacity(0.15),
-      ),
-    );
-  }
-void _addPolyline(LatLng point){  //creates polygon of the lat and lang points from the latlanPoints variable
-  MapsPlugin.polylines.add(
-    Polyline(
-      polylineId: const PolylineId("polyline 1"),
-      points: [point,latlanPoints[0]],
-      jointType: JointType.round,
-      width: 2
-    ),
-  );
 }
