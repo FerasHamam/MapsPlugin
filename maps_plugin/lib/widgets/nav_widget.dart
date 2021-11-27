@@ -7,17 +7,14 @@ import '../bloc/locationbloc.dart';
 
 //this is the nav bar in the bottom of the screen
 class NavWidget extends StatelessWidget {
-  final LocationBloc locationBloc;//location BloC from maps_plugin.dart
-  const NavWidget({
-    Key? key,
-    required this.locationBloc
-  }) : super(key: key);
+  final LocationBloc locationBloc; //location BloC from maps_plugin.dart
+  const NavWidget({Key? key, required this.locationBloc}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final Size deviceSize = MediaQuery.of(context).size;
     return Container(
-      height: deviceSize.height*0.07,
+      height: deviceSize.height * 0.07,
       width: deviceSize.width,
       padding: const EdgeInsets.symmetric(horizontal: 15),
       color: Colors.white,
@@ -25,11 +22,12 @@ class NavWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const ArrowBackButton(),
-          NavigateButtons(locationBloc: locationBloc,),//passing locationBloC to let the buttons control this widget!
+          NavigateButtons(
+            //passing locationBloC to let the buttons control this widget!
+            locationBloc: locationBloc,
+          ),
         ],
       ),
     );
   }
 }
-
-
