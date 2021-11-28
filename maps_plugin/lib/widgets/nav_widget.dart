@@ -14,12 +14,13 @@ class NavWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size deviceSize = MediaQuery.of(context).size;
     return Container(
-      height: deviceSize.height * 0.07,
+      height: deviceSize.height * 0.5,
       width: deviceSize.width,
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.all(15),
       color: Colors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           const ArrowBackButton(),
           NavigateButtons(

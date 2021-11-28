@@ -28,8 +28,7 @@ class _MapsPluginState extends State<MapsPlugin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.bottomCenter,
+      body: Column(
         children: [
           MapWidget(locationBloc: _locationBloc), //first child of the stack
           NavWidget(

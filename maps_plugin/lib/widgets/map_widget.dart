@@ -23,32 +23,36 @@ class MapWidget extends StatelessWidget {
   MapWidget({required this.locationBloc, Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    polylines.clear();
     addPolygon(); //function from functions.dart file
-    return StreamBuilder<LatLng>(
-        //stream to detect the pressed buttons on the nav bar
-        stream: locationBloc.locationStream,
-        initialData: latlanPoints[0], //any dummy point to start with
-        builder: (context, snapShot) {
-          //won't enter first time because connection state will be waiting
-          if (snapShot.connectionState == ConnectionState.active) {
-            addPolyline(snapShot.data!); //function from functions.dart file
-            _controller.animateCamera(
-              CameraUpdate.newCameraPosition(
-                CameraPosition(target: snapShot.data!, zoom: 15),
-              ),
+    return Expanded(
+      flex: 1,
+      child: StreamBuilder<LatLng>(
+          //stream to detect the pressed buttons on the nav bar
+          stream: locationBloc.locationStream,
+          initialData: latlanPoints[0], //any dummy point to start with
+          builder: (context, snapShot) {
+            //won't enter first time because connection state will be waiting
+            if (snapShot.connectionState == ConnectionState.active) {
+              addPolyline(snapShot.data!); //function from functions.dart file
+              _controller.animateCamera(
+                CameraUpdate.newCameraPosition(
+                  CameraPosition(target: snapShot.data!, zoom: 15),
+                ),
+              );
+            }
+            return GoogleMap(
+              zoomControlsEnabled: false,
+              mapType: MapType.hybrid,
+              initialCameraPosition: cameraPos,
+              polygons: polygons,
+              myLocationEnabled: true,
+              polylines: polylines,
+              onMapCreated: (GoogleMapController controller) {
+                _controller = controller;
+              },
             );
-          }
-          return GoogleMap(
-            zoomControlsEnabled: false,
-            mapType: MapType.hybrid,
-            initialCameraPosition: cameraPos,
-            polygons: polygons,
-            myLocationEnabled: true,
-            polylines: polylines,
-            onMapCreated: (GoogleMapController controller) {
-              _controller = controller;
-            },
-          );
-        });
+          }),
+    );
   }
 }
