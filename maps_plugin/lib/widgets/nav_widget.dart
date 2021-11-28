@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 //widgets
 import 'buttons/arrow_back_button.dart';
-import 'buttons/navigate_exit_buttons.dart';
+import 'buttons/navigate_button.dart';
 //BloC
 import '../bloc/locationbloc.dart';
 

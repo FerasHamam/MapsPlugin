@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:maps_plugin/maps_plugin.dart';
+//screens
+import 'screens/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,19 +41,7 @@ class ScaffoldWidget extends StatelessWidget {
             'Plugin example app',
           ),
           backgroundColor: Colors.black),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const MapsPlugin()),
-          );
-        },
-        backgroundColor: Colors.black,
-        child: const Icon(
-          Icons.navigation_rounded,
-          color: Colors.white,
-        ),
-      ),
+      body: const MainScreen(),
     );
   }
 }
